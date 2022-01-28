@@ -15,7 +15,10 @@
               <h3 @mouseenter="changeIndex(index)">
                 <a href="">{{ c1.categoryName }}</a>
               </h3>
-              <div class="item-list clearfix">
+              <div
+                class="item-list clearfix"
+                :style="{ display: currentIndex == index ? 'block' : 'none' }"
+              >
                 <div
                   class="subitem"
                   v-for="c2 in c1.categoryChild"
@@ -53,6 +56,7 @@
 
 <script>
 import { mapState } from "vuex";
+import throttle from "lodash/throttle";
 export default {
   name: "TypeNav",
   data() {
@@ -60,7 +64,7 @@ export default {
       currentIndex: -1,
     };
   },
-  created(){
+  created() {
     this.$store.dispatch("categoryList");
   },
   computed: {
@@ -69,12 +73,12 @@ export default {
     }),
   },
   methods: {
-    changeIndex(index) {
+    changeIndex: throttle(function (index) {
       this.currentIndex = index;
+    }, 100),
+    leaveIndex() {
+      this.currentIndex = -1;
     },
-    leaveIndex(){
-      this.currentIndex = -1
-    }
   },
 };
 </script>
@@ -186,12 +190,6 @@ export default {
                   }
                 }
               }
-            }
-          }
-
-          &:hover {
-            .item-list {
-              display: block;
             }
           }
         }
