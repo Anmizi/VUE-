@@ -4,7 +4,7 @@
     <div class="container">
       <div @mouseleave="leaveIndex">
         <h2 class="all">全部商品分类</h2>
-        <div class="sort">
+        <div class="sort" @click="goSearch">
           <div class="all-sort-list2">
             <div
               class="item"
@@ -13,7 +13,11 @@
               :class="{ cur: currentIndex == index }"
             >
               <h3 @mouseenter="changeIndex(index)">
-                <a href="">{{ c1.categoryName }}</a>
+                <a
+                  :data-categoryname="c1.categoryName"
+                  :data-category1id="c1.categoryId"
+                  >{{ c1.categoryName }}</a
+                >
               </h3>
               <div
                 class="item-list clearfix"
@@ -26,11 +30,19 @@
                 >
                   <dl class="fore">
                     <dt>
-                      <a href="">{{ c2.categoryName }}</a>
+                      <a
+                        :data-categoryname="c2.categoryName"
+                        :data-category2id="c2.categoryId"
+                        >{{ c2.categoryName }}</a
+                      >
                     </dt>
                     <dd>
                       <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
-                        <a href="">{{ c3.categoryName }}</a>
+                        <a
+                          :data-categoryname="c3.categoryName"
+                          :data-category3id="c3.categoryId"
+                          >{{ c3.categoryName }}</a
+                        >
                       </em>
                     </dd>
                   </dl>
@@ -78,6 +90,22 @@ export default {
     }, 100),
     leaveIndex() {
       this.currentIndex = -1;
+    },
+    // 跳转路由并传参
+    goSearch(event) {
+      const { categoryname, category1id, category2id, category3id } =
+        event.target.dataset;
+      let query = { categoryName:categoryname };
+      if (categoryname) {
+        if (category1id) {
+          query.category1Id = category1id;
+        } else if (category2id) {
+          query.category2Id = category2id;
+        } else if (category3id) {
+          query.category3Id = category3id;
+        }
+        this.$router.push({ name: "search", query });
+      }
     },
   },
 };
