@@ -4,6 +4,8 @@ import router from './router'
 import store from './store'
 // 引入mockServer.js
 import '@/mock/mockServe'
+// 引入swiper样式
+import 'swiper/css/swiper.css'
 
 // 导入TypeNav组件
 import TypeNav from '@/components/TypeNav'
