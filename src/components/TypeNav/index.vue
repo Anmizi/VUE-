@@ -79,9 +79,6 @@ export default {
       show: true,
     };
   },
-  created() {
-    this.$store.dispatch("categoryList");
-  },
   mounted() {
     if (this.$route.path !== "/home") {
       this.show = false;
@@ -112,6 +109,7 @@ export default {
       const { categoryname, category1id, category2id, category3id } =
         event.target.dataset;
       let query = { categoryName: categoryname };
+      let location = { name: "search", query };
       if (categoryname) {
         if (category1id) {
           query.category1Id = category1id;
@@ -120,7 +118,13 @@ export default {
         } else if (category3id) {
           query.category3Id = category3id;
         }
-        this.$router.push({ name: "search", query });
+        // 如果params参数不空，则路由跳转时携带上params参数
+        if (JSON.stringify(this.$route.params) != '{}') {
+          location.params = this.$route.params
+          
+        }
+        this.$router.push(location)
+        
       }
     },
   },
@@ -243,15 +247,15 @@ export default {
       }
     }
     // 进入过渡动画开始状态
-    .sort-enter{
+    .sort-enter {
       height: 0;
     }
     // 过渡动画生效状态
-    .sort-enter-active{
-      transition: all .5s;
+    .sort-enter-active {
+      transition: all 0.5s;
     }
     // 进入过渡动画结束状态
-    .sort-enter-to{
+    .sort-enter-to {
       height: 461px;
     }
   }

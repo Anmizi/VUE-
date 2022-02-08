@@ -10,7 +10,9 @@
             <p>
               <span>请</span>
               <router-link to="/login">登录</router-link>
-              <router-link to="/register" class="register">免费注册</router-link>
+              <router-link to="/register" class="register"
+                >免费注册</router-link
+              >
             </p>
           </div>
           <div class="typeList">
@@ -28,7 +30,7 @@
       <!--头部第二行 搜索区域-->
       <div class="bottom">
         <h1 class="logoArea">
-          <router-link class="logo" title="尚品汇" to="/home" target="_blank">
+          <router-link class="logo" title="尚品汇" to="/home">
             <img src="./images/logo.png" alt="" />
           </router-link>
         </h1>
@@ -38,8 +40,13 @@
               type="text"
               id="autocomplete"
               class="input-error input-xxlarge"
+              v-model="keyword"
             />
-            <button class="sui-btn btn-xlarge btn-danger" type="button" @click="goSearch">
+            <button
+              class="sui-btn btn-xlarge btn-danger"
+              type="button"
+              @click="goSearch"
+            >
               搜索
             </button>
           </form>
@@ -52,9 +59,28 @@
 <script>
 export default {
   name: "Header",
+  data(){
+    return {
+      keyword: ''
+    }
+  },
   methods: {
     goSearch(){
-      this.$router.push('/search')
+      // 路由传递参数：
+      // 字符串形式
+      // this.$router.push('/search/' + this.keyword +'?username=zhangsan')
+      // 模板字符串
+      // this.$router.push(`/search/${this.keyword}?username=zhangsan`)
+
+      // 对象方法
+      // this.$router.push({name: 'search',params: {keyword: this.keyword}})
+      // 传递params参数
+      let location = {name: 'search',params: {keyword: this.keyword}}
+      // 如何当前地址栏带query参数则合并参数
+      if(JSON.stringify(this.$route.query) !== '{}'){
+        location.query = this.$route.query
+      }
+      this.$router.push(location)
     }
   }
 };
