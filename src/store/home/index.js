@@ -1,13 +1,17 @@
-import { reqCategoryList } from '@/api'
+import { reqCategoryList, reqGetBannerList } from '@/api'
 // state:仓库存储数据的地方
 const state = {
-  categoryList: []
+  categoryList: [],
+  bannerList: []
 }
 
 // mutations:修改state的唯一手段
 const mutations = {
   CATEGORYLIST(state, data) {
     state.categoryList = data
+  },
+  BANNERLIST(state, data) {
+    state.bannerList = data
   }
 }
 
@@ -19,6 +23,12 @@ const actions = {
       commit('CATEGORYLIST', res.data)
     }
 
+  },
+  async getBannerList({ commit }) {
+    const res = await reqGetBannerList()
+    if (res.code === 200) {
+      commit('BANNERLIST', res.data)
+    }
   }
 }
 
