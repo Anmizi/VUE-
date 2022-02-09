@@ -4,7 +4,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
+        <div class="swiper-container" id="mySwiper" ref="banner-swiper">
           <div class="swiper-wrapper">
             <div
               class="swiper-slide"
@@ -103,6 +103,7 @@ export default {
   mounted() {
     // 派发action 通过vuex发起ajax请求，将数据存储在仓库中
     this.$store.dispatch("getBannerList");
+    
   },
   computed: {
     ...mapState({
@@ -116,7 +117,7 @@ export default {
       handler() {
         // 保证服务器数据回来后，v-for执行完毕且DOM更新完毕时执行回调
         this.$nextTick(() => {
-          new Swiper("#mySwiper", {
+          new Swiper(this.$refs['banner-swiper'], {
             direction: "horizontal", // 垂直切换选项
             loop: true, // 循环模式选项
 
