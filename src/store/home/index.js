@@ -1,8 +1,9 @@
-import { reqCategoryList, reqGetBannerList } from '@/api'
+import { reqCategoryList, reqGetBannerList, reqGetFloorList } from '@/api'
 // state:仓库存储数据的地方
 const state = {
   categoryList: [],
-  bannerList: []
+  bannerList: [],
+  floorList: []
 }
 
 // mutations:修改state的唯一手段
@@ -12,6 +13,9 @@ const mutations = {
   },
   BANNERLIST(state, data) {
     state.bannerList = data
+  },
+  FLOORLIST(state,data){
+    state.floorList = data
   }
 }
 
@@ -29,11 +33,18 @@ const actions = {
     if (res.code === 200) {
       commit('BANNERLIST', res.data)
     }
+  },
+  async getFloorList({commit}){
+    const res = await reqGetFloorList()
+    if(res.code === 200){
+      commit('FLOORLIST',res.data)
+    }
   }
 }
 
 //getters: 理解为计算属性，用于简化仓库数据的获取
-const getters = {}
+const getters = {
+}
 
 export default {
   state,
