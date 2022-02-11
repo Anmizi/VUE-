@@ -125,15 +125,49 @@ import SearchSelector from "./SearchSelector/SearchSelector";
 import { mapGetters } from "vuex";
 export default {
   name: "Search",
+  data() {
+    return {
+      searchParams: {
+        category1Id: "",
+        category2Id: "",
+        category3Id: "",
+        categoryName: "",
+        keyword: "",
+        order: "",
+        pageNo: 1,
+        pageSize: 10,
+        props: [],
+        trademark: "",
+      },
+    };
+  },
   components: {
     SearchSelector,
   },
+  beforeMount(){
+    Object.assign(this.searchParams,this.$route.query,this.$route.params)
+  },
   mounted() {
-    this.$store.dispatch("getSearchInfo");
+    this.getSearchInfo();
   },
   computed: {
     ...mapGetters(["trademarkList", "goodsList", "attrsList"]),
   },
+  methods: {
+    getSearchInfo() {
+      this.$store.dispatch("getSearchInfo",this.searchParams);
+      // 每次请求完数据后，必须将三级分类id置空，否则会影响下一次请求数据
+      this.searchParams.category1Id = ''
+      this.searchParams.category2Id = ''
+      this.searchParams.category3Id= ''
+    },
+  },
+  watch:{
+    $route(){
+      Object.assign(this.searchParams,this.$route.query,this.$route.params)
+      this.getSearchInfo()
+    }
+  }
 };
 </script>
 
