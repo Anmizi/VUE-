@@ -462,10 +462,12 @@
 import SearchSelector from "./SearchSelector/SearchSelector";
 export default {
   name: "Search",
-
   components: {
     SearchSelector,
   },
+  mounted(){
+    this.$store.dispatch('getSearchInfo')
+  }
 };
 </script>
 

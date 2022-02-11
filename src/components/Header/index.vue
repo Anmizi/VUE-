@@ -66,15 +66,6 @@ export default {
   },
   methods: {
     goSearch(){
-      // 路由传递参数：
-      // 字符串形式
-      // this.$router.push('/search/' + this.keyword +'?username=zhangsan')
-      // 模板字符串
-      // this.$router.push(`/search/${this.keyword}?username=zhangsan`)
-
-      // 对象方法
-      // this.$router.push({name: 'search',params: {keyword: this.keyword}})
-      // 传递params参数
       let location = {name: 'search',params: {keyword: this.keyword}}
       // 如何当前地址栏带query参数则合并参数
       if(JSON.stringify(this.$route.query) !== '{}'){

@@ -38,8 +38,7 @@ export default new VueRouter({
       name: 'search',
       path: '/search/:keyword?',
       component: Search,
-      meta: { show: true },
-      props: true
+      meta: { show: true }
     },
     {
       path: '/login',
