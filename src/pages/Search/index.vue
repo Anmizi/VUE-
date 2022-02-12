@@ -11,10 +11,7 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="searchParams.categoryName">{{searchParams.categoryName}}<i @click="removeCategory">x</i></li>
           </ul>
         </div>
 
@@ -156,16 +153,28 @@ export default {
   methods: {
     getSearchInfo() {
       this.$store.dispatch("getSearchInfo",this.searchParams);
+    },
+    // 移除分类
+    removeCategory(){
+      // 设置为undefined发送请求时不会带给服务器
+      this.searchParams.categoryName = undefined
+      this.searchParams.category1Id = undefined
+      this.searchParams.category2Id = undefined
+      this.searchParams.category3Id= undefined
+      this.getSearchInfo()
+      // 地址栏也需要发送改变
+      this.$router.push({name: 'search',params: this.$route.params})
+    }
+  },
+  watch:{
+    $route(){
       // 每次请求完数据后，必须将三级分类id置空，否则会影响下一次请求数据
       this.searchParams.category1Id = ''
       this.searchParams.category2Id = ''
       this.searchParams.category3Id= ''
-    },
-  },
-  watch:{
-    $route(){
       Object.assign(this.searchParams,this.$route.query,this.$route.params)
       this.getSearchInfo()
+      
     }
   }
 };
